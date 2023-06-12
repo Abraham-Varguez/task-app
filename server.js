@@ -22,7 +22,7 @@ const readTask = () => {
     const tasks = JSON.parse(taskData);
     return tasks;
   } catch {
-    console.log(`Error reading tasks from file`);
+    console.log("Error reading tasks from file");
     return [];
   }
 };
@@ -33,11 +33,30 @@ const saveTasksToFile = (tasks) => {
     const tasksData = JSON.stringify(tasks);
     writeFileSync(join(__dirname, "task.json"), tasksData, "utf-8");
   } catch (error) {
-    console.log(`Error saving tasks to file: ${error}`);
+    console.log("Error saving tasks to file:", error);
   }
 };
 
-// Define the API endpoint for the GET request
+
+//THIS IS HOW ORGINALLY HAD MY CODE BUT IT WAS NOT WORKIGG SO I NEEDED TO CONNECT IT TO THE SERVER.JS FILE BUT I WAS STRGULLING HOW TO DO IT I FOUND THE ASNWER BUT IT WAS COMPLEX FOR ME TO UNDERSTNAD FULLY
+//I JUST WANTED TO BE TRANSPARETNT CAUSE I AM DEFINETELY NOT AN EXPERT CODER 
+// Define a new API endpoint for the DELETE request to handle task deletion.
+app.delete("/tasks-data/:index", (req, res) => {
+  const tasks = readTask();
+
+  const index = parseInt(req.params.index);
+  // Extract the task index from the request parameters and remove the corresponding task from the tasks array.
+  if (isNaN(index) || index < 0 || index >= tasks.length) {
+    return res.status(400).json({ error: "Invalid task index" });
+  }
+  // Update the JSON file with the modified tasks array.
+  tasks.splice(index, 1);
+  saveTasksToFile(tasks);
+  // Return the updated tasks array as the response.
+  res.json(tasks);
+});
+
+// Define the API endpoint for the GET request to fetch tasks
 app.get("/tasks-data", (req, res) => {
   const tasks = readTask();
   res.json(tasks);
