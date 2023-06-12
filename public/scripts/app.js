@@ -1,29 +1,31 @@
 "use strict";
-import { readTask } from "./scripts/taskUtils.js";
-
+"use strict";
+import { readTask } from "./taskUtils.js";
 
 const tasks = readTask();
 //Render into the HTML
 
+("use strict");
+import { readTask } from "./taskUtils.js";
+
+//Render into the HTML
 const renderTasks = () => {
-  // Make an HTTP GET request to the server's API endpoint
-  //This also a promise
+  let tasks = readTask(); // Move the declaration and initialization here
+
+  //THIS WAS THE BIGEST HEADACHE IN THE WORLD
   fetch("/tasks-data")
     .then((res) => res.json())
-    .then((task) => {
-      //Clears any existing tasks
-      listContainer.innerHTML = "";
+    .then((fetchedTasks) => {
+      tasks = fetchedTasks; // Update the tasks variable with fetched tasks
 
-      //writes the li and span using the ForEach loop method
+      listContainer.innerHTML = "";
       tasks.forEach((task) => {
         const li = document.createElement("li");
         li.textContent = task;
-        //Writes the close logo on my task
         const span = document.createElement("span");
         span.innerHTML = "\u00d7";
-        //Inserts the LI and SPAN into the HTML
         li.appendChild(span);
-        listContainer.appendChild;
+        listContainer.appendChild(li);
       });
     })
     .catch((error) => {
@@ -31,21 +33,12 @@ const renderTasks = () => {
     });
 };
 
-//Writes and Saves the information to the JSON file
-function saveTasksToFile() {
-  try {
-    const tasksData = JSON.stringify(tasks);
-    fs.writeFileSync("tasks.json", tasksData, "utf8");
-  } catch (error) {
-    console.log("Error saving tasks to file:", error);
-  }
-}
+// The rest of your code...
+
+renderTasks(); // Call renderTasks to fetch and render the tasks
 
 const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
-//Retreaving the JSON file
-
-renderTasks();
 
 const addTask = function () {
   if (inputBox.value === "") {
