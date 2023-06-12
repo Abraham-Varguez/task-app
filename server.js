@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Serve static files from the "public" directory
-app.use(express.static(join(__dirname, "public")));
+app.use(express.static(join(__dirname)));
 
 // Read tasks from the JSON file
 const readTask = () => {
