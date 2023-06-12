@@ -32,14 +32,12 @@ const saveTasksToFile = (tasks) => {
   try {
     const tasksData = JSON.stringify(tasks);
     writeFileSync(join(__dirname, "task.json"), tasksData, "utf-8");
+    console.log("Taks Succesfuly Saved");
   } catch (error) {
     console.log("Error saving tasks to file:", error);
   }
 };
 
-
-//THIS IS HOW ORGINALLY HAD MY CODE BUT IT WAS NOT WORKIGG SO I NEEDED TO CONNECT IT TO THE SERVER.JS FILE BUT I WAS STRGULLING HOW TO DO IT I FOUND THE ASNWER BUT IT WAS COMPLEX FOR ME TO UNDERSTNAD FULLY
-//I JUST WANTED TO BE TRANSPARETNT CAUSE I AM DEFINETELY NOT AN EXPERT CODER 
 // Define a new API endpoint for the DELETE request to handle task deletion.
 app.delete("/tasks-data/:index", (req, res) => {
   const tasks = readTask();
@@ -54,6 +52,7 @@ app.delete("/tasks-data/:index", (req, res) => {
   saveTasksToFile(tasks);
   // Return the updated tasks array as the response.
   res.json(tasks);
+  console.log("Task has been deleted");
 });
 
 // Define the API endpoint for the GET request to fetch tasks
@@ -71,7 +70,9 @@ app.post("/tasks-data", express.json(), (req, res) => {
     return res.status(400).json({ error: "Task is required" });
   }
 
+  //puahes the info into the array new tasks
   tasks.push(newTask);
+
   saveTasksToFile(tasks);
 
   res.status(201).json(tasks);
@@ -79,7 +80,7 @@ app.post("/tasks-data", express.json(), (req, res) => {
 
 // Connect to the front end
 app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "public", "index.html"));
+  res.sendFile(join(__dirname, "index.html"));
 });
 
 // Start the server

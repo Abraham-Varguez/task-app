@@ -88,6 +88,7 @@ ul li {
   user-select: none;
   cursor: pointer;
   position: relative;
+  color: #edeef0;
 }
 
 ul li::before {
@@ -96,15 +97,6 @@ ul li::before {
   height: 2.8rem;
   width: 2.8rem;
   border-radius: 50%;
-}
-
-ul li.checked {
-  color: #555;
-  text-decoration: line-through;
-}
-
-.hidden {
-  display: none;
 }
 
 ul li span {
